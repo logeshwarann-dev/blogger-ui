@@ -7,6 +7,7 @@ const App = () => {
   const [blogData, setBlogData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false); // State to toggle modal
 
   const handleGenerateBlog = async () => {
     setLoading(true);
@@ -15,7 +16,7 @@ const App = () => {
 
     try {
       const response = await axios.post(
-        'https://dgsc1pirbg.execute-api.us-east-1.amazonaws.com/dev/generate-blog', // Replace with your API Gateway endpoint
+        'https://dgsc1pirbg.execute-api.us-east-1.amazonaws.com/dev/generate-blog',
         { prompt }
       );
       setBlogData(response.data);
@@ -26,9 +27,19 @@ const App = () => {
     }
   };
 
+  // Toggle modal visibility
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
   return (
     <div className="app">
-      <h1>AI Blog Generator Bot</h1>
+      <div className="header">
+        <h1>AI Blog Generator Bot</h1>
+        <button className="view-developers-button" onClick={toggleModal}>
+          View Developers
+        </button>
+      </div>
       <p>Generate engaging blog content with AI!</p>
 
       <div className="input-section">
@@ -58,8 +69,25 @@ const App = () => {
           <img src={blogData.image_url} alt="Generated Visual" />
         </div>
       )}
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={toggleModal}>&times;</span>
+            <h2>Developers</h2>
+            <p>Logeshwaran N [2023MT03135]</p>
+            <p>B Pavan Kalyan [2023MT03175]</p>
+            <p>Achala Rao [2023MT03162]</p>
+            <p>Manisha Ganji [2023MT03130]</p>
+            <p>Surya [2023MT03126]</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default App;
+
+
+
